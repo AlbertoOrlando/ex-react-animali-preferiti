@@ -16,16 +16,28 @@
     <!-- Babel (per scrivere JSX direttamente) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-        const animalsChoices = ["Cane", "Gatto", "Pappagallo", "Cavallo", "Panda"];
+        const { useState } = React
+
         const AnimalsList = () => {
-            return (<details className="dettagli">
-                <summary>Lista animali</summary>
-                <ul>
-                    {animalsChoices.map((animal, i) => (
-                        <li key={i}>{animal}</li>
-                    ))}
-                </ul>
-            </details>
+            const animalsChoices = ["Cane", "Gatto", "Pappagallo", "Cavallo", "Panda"];
+            const [animals, setAnimals] = useState([]);
+
+            const addAnimal = () => {
+                const randomAnimal = animalsChoices[Math.floor(Math.random() * animalsChoices.length)];
+                setAnimals((prevAnimals) => [...prevAnimals, randomAnimal]);
+            }
+            return (
+                <>
+                    <button onClick={addAnimal}>aggiungi animale</button>
+                    <details className="dettagli">
+                        <summary>Lista animali</summary>
+                        <ul>
+                            {animals.map((animal, i) => (
+                                <li key={i}>{animal}</li>
+                            ))}
+                        </ul>
+                    </details>
+                </>
             )
         }
     </script>

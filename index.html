@@ -1,5 +1,5 @@
 <!-- index.html -->
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I miei animali Preferiti</title>
     <link rel="stylesheet" href="style.css">
-    <!-- React -->
+    React
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 
-    <!-- ReactDOM -->
+    ReactDOM
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
-    <!-- Babel (per scrivere JSX direttamente) -->
+    Babel (per scrivere JSX direttamente)
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
         const { useState } = React
@@ -50,6 +50,116 @@
         root.render(<AnimalsList />)
     </script>
 
+</head>
+
+<body>
+    <header>
+        <h1>I miei animali Preferiti</h1>
+    </header>
+    <main>
+        <figure>
+            <img src="https://picsum.photos/400/300" alt="Immagine Casuale">
+        </figure>
+        <div class="lista-animali"></div>
+    </main>
+    <footer>
+        <p>Creato con amore da... un collega sbadato! 🐾</p>
+    </footer>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I miei animali preferiti</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- React -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+
+    <!-- ReactDOM -->
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Babel (per scrivere JSX direttamente) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState } = React
+
+        function Modal({
+            title,
+            content,
+            show = false,
+            onClose = () => { },
+            onAdd = () => { }
+        }) {
+            return show && ReactDOM.createPortal(
+                <div className="modal-container">
+                    <div className="modal">
+                        <h2>{title}</h2>
+                        {content}
+                        <button onClick={onClose}>Annulla</button>
+                        <button onClick={onAdd}>Aggiungi</button>
+                    </div>
+                </div>,
+                document.body
+            )
+        }
+
+        const AnimalsList = () => {
+            const [animals, setAnimals] = useState([]);
+            const [showModal, setShowModal] = useState(false);
+            const [input, setInput] = useState("");
+
+            const addAnimal = () => {
+                if (input.trim() !== "") {
+                    setAnimals((prevAnimals) => [...prevAnimals, input]);
+                    setInput("");
+                    setShowModal(false);
+                }
+            }
+            const modalContent = (
+                <textarea
+                    name="input"
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    placeholder="Scrivi il tuo animale preferito"
+                />
+            )
+
+            return (
+                <>
+                    <button onClick={() => setShowModal(true)}>Aggiungi animale</button>
+                    <Modal
+                        title="Aggiungi un animale"
+                        content={modalContent}
+                        show={showModal}
+                        onClose={() => { setShowModal(false); setInput("") }}
+                        onAdd={addAnimal}
+                    />
+                    <details className="dettagli">
+                        <summary>Lista animali</summary>
+                        <ul>
+                            {animals.map((animal, i) => (
+                                <li key={i}>{animal}</li>
+                            ))}
+                        </ul>
+                    </details>
+                </>
+            )
+
+        }
+
+    </script>
+    <script type="text/babel">
+        const { createRoot } = ReactDOM
+        const listaAnimali = document.querySelector(".lista-animali")
+        const root = createRoot(listaAnimali)
+        root.render(<AnimalsList />)
+    </script>
 </head>
 
 <body>

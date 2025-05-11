@@ -26,6 +26,7 @@
                 const randomAnimal = animalsChoices[Math.floor(Math.random() * animalsChoices.length)];
                 setAnimals((prevAnimals) => [...prevAnimals, randomAnimal]);
             }
+
             return (
                 <>
                     <button onClick={addAnimal}>aggiungi animale</button>
